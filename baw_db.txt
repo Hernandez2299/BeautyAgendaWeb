@@ -1,0 +1,105 @@
+-- Crear base de datos
+CREATE DATABASE eps_db;
+USE eps_db;
+
+-- =========================
+-- Tabla: Clientes
+-- =========================
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    correo VARCHAR(100),
+    fecha_registro DATE DEFAULT CURRENT_DATE
+);
+
+-- =========================
+-- Tabla: Empleados
+-- =========================
+CREATE TABLE empleados (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    especialidad VARCHAR(100),
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- =========================
+-- Tabla: Servicios (catálogo de tratamientos)
+-- =========================
+CREATE TABLE servicios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    duracion INT NOT NULL,        -- duración en minutos
+    precio DECIMAL(8,2) NOT NULL, -- precio del servicio
+    categoria VARCHAR(50),        -- opcional: uñas, faciales, masajes
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- =========================
+-- Tabla: Citas
+-- =========================
+CREATE TABLE citas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    empleado_id INT NOT NULL,
+    servicio_id INT NOT NULL,
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL,
+    estado VARCHAR(20) DEFAULT 'pendiente',
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY (empleado_id) REFERENCES empleados(id),
+    FOREIGN KEY (servicio_id) REFERENCES servicios(id),
+    UNIQUE (empleado_id, fecha, hora), -- evita choques de horarios por empleado
+    UNIQUE (cliente_id, fecha, hora)   -- evita duplicaciones por cliente
+);
+
+-- =========================
+-- Tabla: Usuarios (login al sistema)
+-- =========================
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(50) UNIQUE NOT NULL,
+    clave_hash VARCHAR(255) NOT NULL,
+    rol VARCHAR(20) DEFAULT 'admin', -- admin, recepcion, etc.
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- =========================
+-- Tabla opcional: Recordatorios
+-- =========================
+CREATE TABLE recordatorios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cita_id INT NOT NULL,
+    fecha_envio DATETIME,
+    enviado BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (cita_id) REFERENCES citas(id)
+);
+
+-- =========================
+-- Tabla opcional: Historial de citas
+-- =========================
+CREATE TABLE historial_citas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cita_id INT NOT NULL,
+    accion VARCHAR(50),       -- ej. cancelada, reprogramada, completada
+    fecha_accion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cita_id) REFERENCES citas(id)
+);
+
+-- =========================
+-- Tabla opcional: Especialidades
+-- =========================
+CREATE TABLE especialidades (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- Relación empleados-especialidades (muchos a muchos)
+CREATE TABLE empleado_especialidad (
+    empleado_id INT NOT NULL,
+    especialidad_id INT NOT NULL,
+    PRIMARY KEY (empleado_id, especialidad_id),
+    FOREIGN KEY (empleado_id) REFERENCES empleados(id),
+    FOREIGN KEY (especialidad_id) REFERENCES especialidades(id)
+);

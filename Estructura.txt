@@ -1,0 +1,42 @@
+├── app.py                  # Punto de entrada principal de Flask
+├── config.py               # Configuración de BD, correo, etc.
+├── requirements.txt        # Dependencias del proyecto
+│
+├── models/                 # Lógica de base de datos
+│   ├── __init__.py
+│   ├── citas.py
+│   ├── cliente.py
+│   ├── empleados.py
+│   ├── servicios.py
+│   └── usuarios.py
+│
+├── routes/                 # Rutas organizadas por módulo
+│   ├── __init__.py
+│   ├── citas.py
+│   ├── cliente.py
+│   ├── empleados.py
+│   ├── servicios.py
+│   └── auth.py
+│
+├── templates/              # Vistas HTML (Jinja2)
+│   ├── base.html           # Layout general
+│   ├── index.html          # Página principal
+│   ├── citas.html
+│   ├── pacientes.html
+│   ├── empleados.html
+│   ├── servicios.html
+│   └── login.html
+│
+├── static/                 # Archivos estáticos
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── scripts.js
+│   └── img/
+│       └── favicon.ico
+│
+├── docs/                   # Documentación
+│   ├── manual_usuario.md
+│   └── documento_tecnico.md
+│
+└── venv/                   # Entorno virtual (no se sube al repo)
