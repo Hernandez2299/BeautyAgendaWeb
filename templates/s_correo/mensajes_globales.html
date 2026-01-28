@@ -1,0 +1,52 @@
+{% extends "base_2.html" %}
+
+{% block content %}
+<h2>Mensajes globales</h2>
+<p>Redacta y envía campañas institucionales a tus clientes.</p>
+
+<!-- Formulario para crear un nuevo mensaje -->
+<div class="ui segment">
+  <form class="ui form" method="POST" action="{{ url_for('correo.mensajes_globales') }}">
+    <div class="field">
+      <label>Asunto</label>
+      <input type="text" name="asunto" placeholder="Ejemplo: Promoción de San Valentín" required>
+    </div>
+    <div class="field">
+      <label>Mensaje</label>
+      <textarea name="mensaje" rows="5" placeholder="Escribe aquí el contenido del mensaje..." required></textarea>
+    </div>
+    <button class="ui primary button" type="submit">
+      <i class="envelope icon"></i> Guardar mensaje
+    </button>
+  </form>
+</div>
+
+<!-- Lista de mensajes institucionales guardados -->
+<div class="ui segment">
+  <h3>Mensajes guardados</h3>
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Asunto</th>
+        <th>Contenido</th>
+        <th>Fecha de creación</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in mensajes %}
+      <tr>
+        <td>{{ m.id }}</td>
+        <td>{{ m.asunto }}</td>
+        <td>{{ m.contenido }}</td>
+        <td>{{ m.fecha_creacion.strftime("%d/%m/%Y %H:%M") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<a class="ui button" href="{{ url_for('correo.s_correo') }}">
+  <i class="arrow left icon"></i> Volver al menú de correos
+</a>
+{% endblock %}

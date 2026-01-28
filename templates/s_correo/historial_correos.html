@@ -1,0 +1,45 @@
+{% extends "base_2.html" %}
+
+{% block content %}
+<h2>Historial de correos</h2>
+<p>Consulta los correos enviados, pendientes o fallidos dentro del sistema.</p>
+
+<div class="ui segment">
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Destinatario</th>
+        <th>Asunto</th>
+        <th>Contenido</th>
+        <th>Fecha de envío</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for h in historial %}
+      <tr>
+        <td>{{ h.id }}</td>
+        <td>{{ h.destinatario }}</td>
+        <td>{{ h.asunto }}</td>
+        <td>{{ h.contenido }}</td>
+        <td>{{ h.fecha_envio.strftime("%d/%m/%Y %H:%M") }}</td>
+        <td>
+          {% if h.estado == "enviado" %}
+            <span class="ui green label">Enviado</span>
+          {% elif h.estado == "pendiente" %}
+            <span class="ui yellow label">Pendiente</span>
+          {% else %}
+            <span class="ui red label">Fallido</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<a class="ui button" href="{{ url_for('correo.s_correo') }}">
+  <i class="arrow left icon"></i> Volver al menú de correos
+</a>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Editar Cita</h2>
+
+<!-- Mensajes flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="{{ url_for('citas.editar', id=cita[0]) }}">
+  <div>
+    <label for="fecha">Fecha:</label>
+    <input type="date" name="fecha" id="fecha" value="{{ cita[4] }}" required>
+  </div>
+
+  <div>
+    <label for="hora">Hora:</label>
+    <input type="time" name="hora" id="hora" value="{{ cita[5] }}" required>
+  </div>
+
+  <div>
+    <label for="estado">Estado:</label>
+    <select name="estado" id="estado">
+      <option value="pendiente" {% if cita[6] == 'pendiente' %}selected{% endif %}>Pendiente</option>
+      <option value="confirmada" {% if cita[6] == 'confirmada' %}selected{% endif %}>Confirmada</option>
+      <option value="cancelada" {% if cita[6] == 'cancelada' %}selected{% endif %}>Cancelada</option>
+      <option value="completada" {% if cita[6] == 'completada' %}selected{% endif %}>Completada</option>
+    </select>
+  </div>
+
+  <div>
+    <button type="submit">Guardar cambios</button>
+    <a href="{{ url_for('citas.listar') }}">Volver</a>
+  </div>
+</form>
+{% endblock %}

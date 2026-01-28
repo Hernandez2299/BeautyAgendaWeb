@@ -1,0 +1,52 @@
+{% extends "base_2.html" %}
+
+{% block content %}
+<h2>Plantillas de correo</h2>
+<p>Administra y personaliza las plantillas de mensajes para recordatorios y campañas institucionales.</p>
+
+<!-- Formulario para crear o modificar una plantilla -->
+<div class="ui segment">
+  <form class="ui form" method="POST" action="{{ url_for('correo.plantillas') }}">
+    <div class="field">
+      <label>Nombre de la plantilla</label>
+      <input type="text" name="nombre" placeholder="Ejemplo: Recordatorio estándar" required>
+    </div>
+    <div class="field">
+      <label>Contenido HTML</label>
+      <textarea name="contenido" rows="6" placeholder="Escribe aquí el contenido del correo... Puedes usar variables como {{cliente}}, {{fecha_cita}}, {{servicio}}"></textarea>
+    </div>
+    <button class="ui primary button" type="submit">
+      <i class="save icon"></i> Guardar plantilla
+    </button>
+  </form>
+</div>
+
+<!-- Lista de plantillas guardadas -->
+<div class="ui segment">
+  <h3>Plantillas guardadas</h3>
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Contenido</th>
+        <th>Última modificación</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in plantillas %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.contenido_html }}</td>
+        <td>{{ p.fecha_modificacion.strftime("%d/%m/%Y %H:%M") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<a class="ui button" href="{{ url_for('correo.s_correo') }}">
+  <i class="arrow left icon"></i> Volver al menú de correos
+</a>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base_2.html" %}
+
+{% block head %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/clientes.css') }}"> 
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="title">Listado de Clientes</h2>
+
+    <!-- Botón para crear nuevo cliente -->
+    <div class="actions">
+        <form action="{{ url_for('clientes.crear') }}" style="display:inline;">
+            <button type="submit" class="btn-cancelar">➕ Nuevo Cliente</button>
+        </form>
+    </div>
+    <!-- Mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flash-messages">
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Tabla de clientes -->
+    <table class="table-clientes">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente[0] }}</td>
+                <td>{{ cliente[1] }}</td>
+                <td>{{ cliente[2] }}</td>
+                <td>{{ cliente[3] }}</td>
+                <td>
+                    <form action="{{ url_for('clientes.editar', id=cliente[0]) }}" style="display:inline;">
+                        <button type="submit" class="btn-cancelar">Editar</button>
+                    </form>
+                    |
+                    <form action="{{ url_for('clientes.eliminar', id=cliente[0]) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-cancelar">Eliminar</button>
+                    </form>
+
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

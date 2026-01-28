@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="ui container">
+  <h2 class="ui header">Editar Empleado</h2>
+
+  <form class="ui form" method="POST" action="{{ url_for('empleados.editar', id=empleado.id) }}">
+    <div class="field">
+      <label>Nombre</label>
+      <input type="text" name="nombre" value="{{ empleado.nombre }}" required>
+    </div>
+
+    <div class="field">
+      <label>Especialidad</label>
+      <input type="text" name="especialidad" value="{{ empleado.especialidad }}" required>
+    </div>
+
+    <button type="submit" class="ui primary button">Guardar cambios</button>
+    <a href="{{ url_for('empleados.listar') }}" class="ui button">Cancelar</a>
+  </form>
+</div>
+{% endblock %}
+

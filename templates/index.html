@@ -1,0 +1,22 @@
+{% extends "base_2.html" %}
+
+{% block content %}
+<h1>Bienvenido a BeautyAgenda</h1>
+<p>Gestiona tus citas de belleza de manera fácil y eficiente.</p>
+
+
+<!-- Mensajes flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{% include "calendar.html" %}
+
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+{% endblock %}

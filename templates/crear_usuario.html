@@ -1,0 +1,145 @@
+{% extends "base_2.html" %}
+
+{% block title %}Crear usuario{% endblock %}
+
+{% block content %}
+<section class="form-container">
+  <h2>Crear nuevo usuario</h2>
+
+<div class="actions-right">
+   <a href="{{ url_for('auth.login') }}" class="btn-bonito btn-primary">Regresar</a>
+</div>
+
+
+  <!-- Mensajes flash -->
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      <div class="flash">
+        {% for category, message in messages %}
+          <p class="flash-{{ category }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <form action="{{ url_for('usuarios.crear') }}" method="POST" novalidate>
+    <div class="form-row">
+      <label for="username"><strong>Usuario</strong></label>
+      <input type="text" id="username" name="username" required minlength="3" maxlength="50" placeholder="ej: jbella">
+    </div>
+
+    <div class="form-row">
+      <label for="password"><strong>Contraseña</strong></label>
+      <input type="password" id="password" name="password" required minlength="8" placeholder="mínimo 8 caracteres">
+    </div>
+
+    <div class="form-row">
+      <label for="confirm_password"><strong>Confirmar contraseña</strong></label>
+      <input type="password" id="confirm_password" name="confirm_password" required minlength="8" placeholder="repite la contraseña">
+    </div>
+
+    <div class="form-row">
+      <label for="role"><strong>Rol</strong></label>
+      <select id="role" name="role" required>
+        <option value="" disabled selected>Selecciona</option>
+        <!-- <option value="admin">Administrador</option> -->
+        <option value="empleado">Empleado</option>
+        <option value="recepcion">Recepción</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="active"><strong>Estado</strong></label>
+      <select id="active" name="active" required>
+        <option value="1" selected>Activo</option>
+        <option value="0">Inactivo</option>
+      </select>
+    </div>
+
+    <hr>
+
+    <div class="form-row">
+      <label for="admin_key"><strong>Contraseña del administrador</strong></label>
+      <input type="password" id="admin_key" name="admin_key" required placeholder="Ingresa tu contraseña de administrador">
+      <small>Debes ingresar tu contraseña de administrador para crear usuarios.</small>
+    </div>
+
+    <div class="actions">
+      <button type="submit"  class="btn-bonito">Crear usuario</button>
+      <a href="{{ url_for('usuarios.crear') }}" class="btn-cancelar"> Cancelar</a>
+    </div>
+  </form>
+</section>
+
+<style>
+  .form-container { max-width: 640px; margin: 0 auto; padding: 1rem; }
+  .form-row { margin-bottom: 12px; display: flex; flex-direction: column; }
+  .form-row input, .form-row select { padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+  .actions { 
+    display: flex; 
+    justify-content: flex-end;
+    margin-top: 16px; 
+    gap: 10px; }
+  .actions-right { 
+    display: flex; 
+    justify-content: flex-end;
+  }
+  .btn-secondary { background: #eee; color: #333; padding: 8px 14px; border-radius: 6px; text-decoration: none; }
+  .flash p { padding: 8px; border-radius: 6px; margin-bottom: 8px; }
+  .flash-success { background: #e6ffed; color: #177245; }
+  .flash-error { background: #ffe6e6; color: #9c1c1c; }
+  .btn-bonito {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #9c27b0, #ad68ba);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+
+  .btn-bonito:hover {
+    background: linear-gradient(135deg, #ad68ba, #9c27b0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.25);
+  }
+
+  .btn-bonito:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+  }
+  .btn-cancelar {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #f2cef8;
+    color: #9c27b0;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+  }
+
+
+
+ 
+</style>
+
+<script>
+  // Validación mínima de coincidencia de contraseñas (cliente)
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form');
+    const pass = document.getElementById('password');
+    const confirm = document.getElementById('confirm_password');
+
+    form.addEventListener('submit', (e) => {
+      if (pass.value !== confirm.value) {
+        e.preventDefault();
+        alert('Las contraseñas no coinciden.');
+      }
+    });
+  });
+</script>
+{% endblock %}

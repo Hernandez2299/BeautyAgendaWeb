@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>{% block title %}Sistema de Estética{% endblock %}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- css  de base -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<!-- css de estilos adicionales -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<!-- Semantic UI CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+
+</head>
+<body>
+    <!-- Encabezado -->
+<div class="header">
+  <h1>Beauty Agenda</h1>
+  <p>Un sistema de gestión para salones de belleza.</p>
+</div>
+
+<div class="navbar">
+    <a href="{{ url_for('index') }}" class="active">Home</a>
+    <a href="{{ url_for('citas.listar') }}">Citas</a>
+    <a href="{{ url_for('clientes.listar') }}">Clientes</a>
+    <a href="{{ url_for('empleados.listar') }}">Empleados</a>
+    <a href="{{ url_for('servicios.listar') }}">Servicios</a>
+    <a href="{{ url_for('correo.s_correo') }}">Correos</a>
+    <a href="{{ url_for('auth.logout') }}" class="right">Cerrar sesión</a>
+</div>
+
+<!-- Contenido dinámico -->
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<div class="footer">
+  <h2>&copy; 2026 Estética Bella - Sistema de gestión de citas</h2>
+</div>
+
+</body>
+</html>

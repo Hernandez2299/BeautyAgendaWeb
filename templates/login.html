@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu:500" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <h2 class="active"> Inicio de Sesión</h2>
+    <h2 class="inactive underlineHover"> <a href="{{ url_for('usuarios.crear') }}">Crear Usuario</a> </h2>
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="{{ url_for('static', filename='img/salucion.ico') }}" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <form method="POST" action="{{ url_for('auth.login') }}">
+      <input type="text" id="login" class="fadeIn second" name="username" placeholder="Usuario" required>
+      <input type="text" id="password" class="fadeIn third" name="password" placeholder="Contraseña" required>
+      <input type="submit" class="fadeIn fourth" value="Iniciar Sesión">
+    </form>
+    
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} 
+    <div class="flash-messages"> 
+        {% for category, message in messages %} 
+        <p class="{{ category }}">{{ message }}</p> 
+        {% endfor %} 
+    </div> 
+    {% endif %} {% endwith %}
+    
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Se olvido la Contraseña hable con TI</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends "base_2.html" %}
+
+{% block content %}
+<h2>Recordatorios automáticos</h2>
+<p>Lista de correos programados para clientes según sus citas.</p>
+
+<div class="ui segment">
+  <table class="ui celled table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cita</th>
+        <th>Fecha de envío</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in recordatorios %}
+      <tr>
+        <td>{{ r.id }}</td>
+        <td>{{ r.cita_id }}</td>
+        <td>{{ r.fecha_envio.strftime("%d/%m/%Y %H:%M") }}</td>
+        <td>
+          {% if r.enviado %}
+            <span class="ui green label">Enviado</span>
+          {% else %}
+            <span class="ui red label">Pendiente</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<a class="ui button" href="{{ url_for('correo.s_correo') }}">
+  <i class="arrow left icon"></i> Volver al menú de correos
+</a>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "base_2.html" %}
+
+{% block content %}
+<h2>Listado de Citas</h2>
+
+<!-- Botón para nueva cita -->
+<form action="{{ url_for('citas.nueva') }}" style="display:inline;">
+  <button type="submit" class="btn-cancelar">➕ Nueva Cita</button>
+</form>
+
+<!-- Mensajes flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<!-- Formulario de filtros -->
+<form method="GET" action="{{ url_for('citas.listar') }}" class="ui form" style="margin-top: 20px; margin-bottom: 20px;">
+  <div class="fields">
+    <!-- Fecha -->
+    <div class="field">
+      <label>Fecha</label>
+      <input type="date" name="fecha" value="{{ request.args.get('fecha', current_date) }}">
+    </div>
+
+    <!-- Orden Hora -->
+    <div class="field">
+      <label>Orden Hora</label>
+      <select name="orden_hora" class="ui dropdown">
+        <option value="asc" {% if request.args.get('orden_hora') == 'asc' %}selected{% endif %}>Menor a mayor</option>
+        <option value="desc" {% if request.args.get('orden_hora') == 'desc' %}selected{% endif %}>Mayor a menor</option>
+      </select>
+    </div>
+
+    <!-- Orden Fecha -->
+    <div class="field">
+      <label>Orden Fecha</label>
+      <select name="orden_fecha" class="ui dropdown">
+        <option value="asc" {% if request.args.get('orden_fecha') == 'asc' %}selected{% endif %}>Menor a mayor</option>
+        <option value="desc" {% if request.args.get('orden_fecha') == 'desc' %}selected{% endif %}>Mayor a menor</option>
+      </select>
+    </div>
+
+    <!-- Estado -->
+    <div class="field">
+      <label>Estado</label>
+      <select name="estado" class="ui dropdown">
+        <option value="">Todos</option>
+        <option value="Pendiente" {% if request.args.get('estado') == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+        <option value="Confirmada" {% if request.args.get('estado') == 'Confirmada' %}selected{% endif %}>Confirmada</option>
+        <option value="Cancelada" {% if request.args.get('estado') == 'Cancelada' %}selected{% endif %}>Cancelada</option>
+        <option value="Completada" {% if request.args.get('estado') == 'Completada' %}selected{% endif %}>Completada</option>
+      </select>
+    </div>
+
+    <!-- Botón -->
+    <div class="field" style="padding-top: 23px;">
+      <button type="submit" class="ui purple button">Filtrar</button>
+    </div>
+  </div>
+</form>
+
+
+
+<!-- Tabla de citas -->
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Cliente</th>
+      <th>Empleado</th>
+      <th>Servicio</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cita in citas %}
+    <tr>
+      <td>{{ cita[0] }}</td>
+      <td>
+        {% if cita[7] == 1 and cita[8] %}
+          {{ cita[8] }}
+        {% else %}
+          {{ cita[1] }}
+        {% endif %}
+      </td>
+      <td>{{ cita[2] }}</td>
+      <td>{{ cita[3] }}</td>
+      <td>{{ cita[4] }}</td>
+      <td>{{ cita[5] }}</td>
+      <td class="estado {{ cita[6] }}">{{ cita[6] }}</td>
+      <td>
+        <form action="{{  url_for('citas.editar', id=cita[0])  }}" style="display:inline;">
+          <button type="submit" class="btn-cancelar">Editar</button>
+        </form>
+        |
+        <form action="{{  url_for('citas.cancelar', id=cita[0])  }}" style="display:inline;">
+          <button type="submit" class="btn-cancelar">Cancelar</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

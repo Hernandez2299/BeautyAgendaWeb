@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sistema de Estética{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <h1>Beauty Agenda</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('citas.listar') }}">Citas</a></li>
+                <li><a href="{{ url_for('clientes.listar') }}">Clientes</a></li>
+                <li><a href="{{ url_for('empleados.listar') }}">Empleados</a></li>
+                <li><a href="{{ url_for('servicios.listar') }}">Servicios</a></li>
+                <li><a href="{{ url_for('auth.logout') }}" class="logout-btn">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Contenido dinámico -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2026 Estética Bella - Sistema de gestión de citas</p>
+    </footer>
+</body>
+</html>

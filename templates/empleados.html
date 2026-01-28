@@ -1,0 +1,74 @@
+{% extends "base_2.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/empleados.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="title">Listado de Empleados</h2>
+
+        <form action="{{ url_for('empleados.crear') }}" style="display:inline;">
+            <button type="submit" class="btn-cancelar">➕ Nuevo Empleado</button>
+        </form>
+        
+    <!-- Mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flash-messages">
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+    <table class="tabla-empleados">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Especialidad</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for empleado in empleados %}
+            <tr>
+                <td>{{ empleado.id }}</td>
+                <td>{{ empleado.nombre }}</td>
+                <td>{{ empleado.especialidad }}</td>
+                <td>
+                    {% if empleado.activo == 1 %}
+                        <span class="estado activo">Activo</span>
+                    {% else %}
+                        <span class="estado inactivo">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- Botón para cambiar estado -->
+                    <form action="{{ url_for('empleados.cambiar_estado', id=empleado.id) }}" method="POST" style="display:inline;">
+                        {% if empleado.activo == 1 %}
+                            <button type="submit" class="btn-desactivar">Desactivar</button>
+                        {% else %}
+                            <button type="submit" class="btn-activar">Activar</button>
+                        {% endif %}
+                    </form>
+                    |
+                    <!-- Botón para editar -->
+                     <form action="{{ url_for('empleados.editar', id=empleado.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-cancelar">Editar</button>
+                    </form>
+                    |
+                    <!-- Botón para eliminar -->
+                    <form action="{{ url_for('empleados.eliminar', id=empleado.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-cancelar">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base_2.html" %}
+
+{% block content %}
+<!-- Contenido principal -->
+<div class="ui segment">
+  <h3>Bienvenido al módulo de correos</h3>
+  <p>Selecciona una de las opciones del menú superior para gestionar tus correos.</p>
+</div>
+<!-- Menú principal de apartados -->
+<div class="ui four item menu">
+  <a class="item" href="{{ url_for('correo.recordatorios') }}">
+    <i class="clock outline icon"></i> Recordatorios automáticos
+  </a>
+  <a class="item" href="{{ url_for('correo.mensajes_globales') }}">
+    <i class="envelope outline icon"></i> Mensajes globales
+  </a>
+  <a class="item" href="{{ url_for('correo.plantillas') }}">
+    <i class="file alternate outline icon"></i> Plantillas dinámicas
+  </a>
+  <a class="item" href="{{ url_for('correo.historial_correos') }}">
+    <i class="history icon"></i> Historial
+  </a>
+</div>
+
+{% endblock %}

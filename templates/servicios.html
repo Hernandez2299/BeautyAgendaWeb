@@ -1,0 +1,76 @@
+{% extends "base_2.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/servicios.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="title">Listado de Servicios</h2>
+
+    <form action="{{ url_for('servicios.crear') }}" style="display:inline;">
+        <button type="submit" class="btn-cancelar">➕ Nuevo Servicio</button>
+    </form>
+    <!-- Mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flash-messages">
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+
+    <table class="tabla-servicios">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servicio in servicios %}
+            <tr>
+                <td>{{ servicio.id }}</td>
+                <td>{{ servicio.nombre }}</td>
+                <td>{{ servicio.descripcion }}</td>
+                <td>${{ servicio.precio }}</td>
+                <td>
+                    {% if servicio.activo == 1 %}
+                        <span class="estado activo">Activo</span>
+                    {% else %}
+                        <span class="estado inactivo">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- Botón para cambiar estado -->
+                    <form action="{{ url_for('servicios.cambiar_estado', id=servicio.id) }}" method="POST" style="display:inline;">
+                        {% if servicio.activo == 1 %}
+                            <button type="submit" class="btn-desactivar">Desactivar</button>
+                        {% else %}
+                            <button type="submit" class="btn-activar">Activar</button>
+                        {% endif %}
+                    </form>
+                    |
+                    <!-- Botón para editar -->
+                     <form action="{{ url_for('servicios.editar', id=servicio.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-cancelar">Editar</button>
+                    </form>
+                    |
+                    <!-- Botón para eliminar -->
+                    <form action="{{ url_for('servicios.eliminar', id=servicio.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-cancelar">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+.tabla-empleados {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-empleados th, .tabla-empleados td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-empleados th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.estado.activo {
+  color: green;
+  font-weight: bold;
+}
+
+.estado.inactivo {
+  color: red;
+  font-weight: bold;
+}
+
+.btn-bonito {
+  background-color: #4CAF50;
+  color: white;
+  padding: 6px 10px;
+  text-decoration: none;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: #2196F3;
+  color: white;
+  padding: 6px 10px;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.btn-cancelar {
+  background-color: #f44336;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

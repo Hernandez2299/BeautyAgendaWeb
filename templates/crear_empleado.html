@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/empleados.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="title">Registrar Nuevo Empleado</h2>
+
+    <form method="POST" action="{{ url_for('empleados.crear') }}" class="form-empleados">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="especialidad">Especialidad:</label>
+            <input type="text" id="especialidad" name="especialidad" required>
+        </div>
+
+        <div class="form-group">
+            <label for="activo">Activo:</label>
+            <select id="activo" name="activo" required>
+                <option value="1">Sí</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-bonito">Guardar Empleado</button>
+            <a href="{{ url_for('empleados.listar') }}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

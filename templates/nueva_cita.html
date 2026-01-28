@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Nueva Cita</h2>
+
+<!-- Mensajes flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="{{ url_for('citas.nueva') }}">
+
+  <!-- CAMPO CLIENTE -->
+  <div>
+        <!-- Cliente fijo -->
+    <label for="cliente_id">Cliente fijo:</label>
+    <select name="cliente_id" id="cliente_id" required>
+      <option value="1">Selecione Cliente fijo</option>
+      {% for cliente in clientes %}
+        <option value="{{ cliente[0] }}">{{ cliente[1] }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Cliente ocasional -->
+    <label for="cliente_ocacional">Cliente ocasional:</label>
+    <input type="text" name="cliente_ocacional" id="cliente_ocacional" 
+          placeholder="Escribe el nombre si no es fijo">
+
+
+      <!-- CAMPO EMPLEADO -->
+      <div>
+        <label for="empleado_id">Empleado:</label>
+        <select name="empleado_id" id="empleado_id" required>
+          {% for empleado in empleados %}
+            <option value="{{ empleado[0] }}">{{ empleado[1] }}</option>
+          {% endfor %}
+        </select>
+  </div>
+
+  <!-- CAMPO SERVICIO -->
+  <div>
+    <label for="servicio_id">Servicio:</label>
+    <select name="servicio_id" required>
+      {% for servicio in servicios %}
+        <option value="{{ servicio[0] }}">{{ servicio[0] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+<!-- CAMPO FECHA -->
+  <div>
+    <label for="fecha">Fecha:</label>
+    <input type="date" name="fecha" id="fecha" required>
+  </div>
+<!-- CAMPO HORA -->
+  <div>
+    <label for="hora">Hora:</label>
+    <input type="time" name="hora" id="hora" required>
+  </div>
+
+  <div>
+    <button type="submit">Guardar cita</button>
+    <a href="{{ url_for('citas.listar') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}
