@@ -1,21 +1,32 @@
--- Crear base de datos
-CREATE DATABASE eps_db;
-USE eps_db;
+-- Crear la base de datos
+CREATE DATABASE beautyagenda CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE beautyagenda;
 
--- =========================
--- Tabla: Clientes
--- =========================
+-- ============================
+-- Tabla: clientes
+-- ============================
 CREATE TABLE clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     telefono VARCHAR(20),
-    correo VARCHAR(100),
-    fecha_registro DATE DEFAULT CURRENT_DATE
+    correo VARCHAR(150) UNIQUE,
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- =========================
--- Tabla: Empleados
--- =========================
+-- ============================
+-- Tabla: clientes_ocacionales
+-- ============================
+CREATE TABLE clientes_ocacionales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    correo VARCHAR(150),
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================
+-- Tabla: empleados
+-- ============================
 CREATE TABLE empleados (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -23,83 +34,99 @@ CREATE TABLE empleados (
     activo BOOLEAN DEFAULT TRUE
 );
 
--- =========================
--- Tabla: Servicios (catálogo de tratamientos)
--- =========================
+-- ============================
+-- Tabla: servicios
+-- ============================
 CREATE TABLE servicios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
-    duracion INT NOT NULL,        -- duración en minutos
-    precio DECIMAL(8,2) NOT NULL, -- precio del servicio
-    categoria VARCHAR(50),        -- opcional: uñas, faciales, masajes
+    duracion INT NOT NULL COMMENT 'Duración en minutos',
+    precio DECIMAL(10,2) NOT NULL,
+    categoria VARCHAR(100),
     activo BOOLEAN DEFAULT TRUE
 );
 
--- =========================
--- Tabla: Citas
--- =========================
+-- ============================
+-- Tabla: citas
+-- ============================
 CREATE TABLE citas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    cliente_id INT NOT NULL,
-    empleado_id INT NOT NULL,
-    servicio_id INT NOT NULL,
+    cliente_id INT,
+    cliente_nombre_manual VARCHAR(100),
+    empleado_id INT,
+    servicio_id INT,
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
-    estado VARCHAR(20) DEFAULT 'pendiente',
+    estado VARCHAR(50) DEFAULT 'pendiente',
     FOREIGN KEY (cliente_id) REFERENCES clientes(id),
     FOREIGN KEY (empleado_id) REFERENCES empleados(id),
-    FOREIGN KEY (servicio_id) REFERENCES servicios(id),
-    UNIQUE (empleado_id, fecha, hora), -- evita choques de horarios por empleado
-    UNIQUE (cliente_id, fecha, hora)   -- evita duplicaciones por cliente
+    FOREIGN KEY (servicio_id) REFERENCES servicios(id)
 );
 
--- =========================
--- Tabla: Usuarios (login al sistema)
--- =========================
-CREATE TABLE usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_usuario VARCHAR(50) UNIQUE NOT NULL,
-    clave_hash VARCHAR(255) NOT NULL,
-    rol VARCHAR(20) DEFAULT 'admin', -- admin, recepcion, etc.
-    activo BOOLEAN DEFAULT TRUE
-);
-
--- =========================
--- Tabla opcional: Recordatorios
--- =========================
-CREATE TABLE recordatorios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    cita_id INT NOT NULL,
-    fecha_envio DATETIME,
-    enviado BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (cita_id) REFERENCES citas(id)
-);
-
--- =========================
--- Tabla opcional: Historial de citas
--- =========================
+-- ============================
+-- Tabla: historial_citas
+-- ============================
 CREATE TABLE historial_citas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     cita_id INT NOT NULL,
-    accion VARCHAR(50),       -- ej. cancelada, reprogramada, completada
+    accion VARCHAR(255) NOT NULL,
     fecha_accion DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (cita_id) REFERENCES citas(id)
 );
 
--- =========================
--- Tabla opcional: Especialidades
--- =========================
-CREATE TABLE especialidades (
+-- ============================
+-- Tabla: historial_correos
+-- ============================
+CREATE TABLE historial_correos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
+    destinatario VARCHAR(255) NOT NULL,
+    asunto VARCHAR(255) NOT NULL,
+    contenido TEXT NOT NULL,
+    fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    estado VARCHAR(50) DEFAULT 'pendiente'
 );
 
--- Relación empleados-especialidades (muchos a muchos)
-CREATE TABLE empleado_especialidad (
-    empleado_id INT NOT NULL,
-    especialidad_id INT NOT NULL,
-    PRIMARY KEY (empleado_id, especialidad_id),
-    FOREIGN KEY (empleado_id) REFERENCES empleados(id),
-    FOREIGN KEY (especialidad_id) REFERENCES especialidades(id)
+-- ============================
+-- Tabla: mensajes_institucionales
+-- ============================
+CREATE TABLE mensajes_institucionales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    contenido TEXT NOT NULL,
+    asunto VARCHAR(255) NOT NULL,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ============================
+-- Tabla: plantilla_correo
+-- ============================
+CREATE TABLE plantilla_correo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    contenido_html TEXT NOT NULL,
+    fecha_modificacion DATETIME DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- ============================
+-- Tabla: recordatorios
+-- ============================
+CREATE TABLE recordatorios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cita_id INT NOT NULL,
+    fecha_envio DATETIME NOT NULL,
+    enviado BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (cita_id) REFERENCES citas(id)
+);
+
+-- ============================
+-- Tabla: usuarios
+-- ============================
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(100) UNIQUE NOT NULL,
+    clave_hash VARCHAR(255) NOT NULL,
+    rol VARCHAR(50) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE
+);
+
