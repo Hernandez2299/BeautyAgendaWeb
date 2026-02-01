@@ -140,4 +140,46 @@ python app.py
 La aplicación estará disponible en tu navegador en: 👉 http://127.0.0.1:5000/
 ```
 
+---
+
+## 🚀 Próximas Mejoras
+
+✨ Estas son algunas ideas que marcarán la evolución de **BeautyAgenda Web**:
+
+- [ ] 📧 Sistema avanzado de **notificaciones por correo** con plantillas personalizadas  
+- [ ] 📱 Interfaz **responsive** optimizada para móviles y tablets  
+- [ ] 🔍 **Filtros inteligentes** para citas, clientes y servicios  
+- [ ] 📄 Exportación de **reportes en PDF/Excel** para análisis administrativo  
+- [ ] 🔐 Autenticación con **Google / Facebook** para mayor comodidad  
+- [ ] 📊 Panel de **estadísticas visuales** con gráficas dinámicas  
+- [ ] ⚡ Mejoras de **rendimiento y velocidad de carga**  
+- [ ] 🌙 Implementación de **modo oscuro** para una experiencia moderna  
+
+---
+
+## 👨‍💻 Autor
+
+<h3 align="center">Jeremy Hernández Mera</h3>
+<p align="center"><strong>JJ</strong> — Mi identidad y mi sello personal</p>
+
+💡 *“El código no solo resuelve problemas, también refleja la visión y estilo de quien lo escribe.”*  
+
+✨ Proyecto desarrollado como parte del portafolio académico en la **Universidad de Guayaquil** ✨  
+
+---
+
+## 📄 Licencia
+
+Este proyecto se publica con fines educativos y de portafolio.  
+Eres libre de revisarlo, mejorarlo o inspirarte en su estructura, siempre reconociendo la autoría original.
+---
+
+## 🙌 Referencias e Inspiración
+
+Este proyecto fue desarrollado íntegramente por **Jeremy Hernández Mera**.  
+El código, la arquitectura y las funcionalidades fueron creadas desde cero, pero la presentación del README.md tomó inspiración en el proyecto:
+
+- [Gestor de Citas Médicas – iparra-sys](https://github.com/iparra-sys/gestor-citas-medicas)
+
+💡 Reconozco su aporte como referencia visual y de estilo, aunque toda la implementación técnica es propia.
 
