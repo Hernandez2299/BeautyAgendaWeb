@@ -101,7 +101,7 @@ Sigue estos pasos para clonar y ejecutar el proyecto en tu entorno local:
 
 ### 1️⃣ Clonar el repositorio
 ```bash
-git clone 
+git clone https://github.com/Hernandez2299/BeautyAgendaWeb.git
 cd beautyagenda-web
 ```
 ### 2️⃣ Crear y activar un entorno virtual
